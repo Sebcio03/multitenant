@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: .
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/usr/src/app
+    environment:
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
